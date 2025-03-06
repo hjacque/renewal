@@ -1,0 +1,42 @@
+livrable
+- schema simplifié du pipeline et des services qui seront utilisés
+	1. notify one month ahead of renewal
+		- daily cron job running on 11 months old deals on dealService
+		- notify the user using the notificationService (send mail for instance), we might want to generate the new deal ahead of the 12th month
+	2. handle customer decision
+		- if customer accept: automatic renewal using billingService
+		- if customer negociate: princingService update deal, then renewal with new deal using billingService
+		- if customer declines: notify customer support for additional support
+	3. billing at renewal date 
+		- billingService generate new invoice and handle payment process
+		- check existing payment transations to avoid double spending/billing
+	4. dispute and customer support
+		- notify customer support team on customer new claims/issue
+
+- retroplanning
+	1. conception - 1 week
+		- define flows, technical implementation, ui design, sprint planning, business rules and edge cases
+	2. development - 2 to 4 weeks
+		- backend development (billingService, notificationService, princingService, usecases testing)
+		- frontend development
+	3. QA - 1 week
+		- testing and bug fixes
+	4. deploy in production - 1 week
+		- deployment, bug fixes and monitoring
+
+- identification des risques qui pourraient décaler la MEP
+	- technical issue with a bug or an newly discovered edge case
+	- service error with third party payment provider
+
+Est-ce que vous identifiez d'autres parties prenantes impactées par ce type de projet?
+- assurance providers
+	- should have access to related customer deals and get pay accordingly to each subscription
+- customer support team
+	- notify when customer decline renewal
+	- access to customer contraction edit history
+- billing team
+	- needs up to date bills and debits
+- product manager
+	- needs clear view on acceptance and decline rates in order to perfect the pricing strategy
+- marketing team
+	- ability to send promotional and/or alternative offers to leaving customers
